@@ -1,0 +1,29 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Conductor {
+  id        Int        @id @default(autoincrement())
+  nombre    String
+  documento String     @unique
+  telefono  String?
+
+  vehiculos Vehiculo[]
+}
+
+model Vehiculo {
+  id          Int         @id @default(autoincrement())
+  marca       String
+  modelo      String
+  color       String
+  placa       String      @unique
+  tipo        String
+  createdAt   DateTime    @default(now())
+
+  conductorId Int?
+  conductor   Conductor? @relation(fields: [conductorId], references: [id], onDelete: Cascade)
+}
